@@ -163,12 +163,200 @@
 	\end{frame}
 
   \begin{frame}{Motion Analysis: Convergence of Energy}
-    Convergence of Energy.
+    Trajectory Tracking Control Problem achieved iff $V*=0$, with:
+		\begin{equation*}
+			V^* = \frac{1}{2}(E^*-E_r)^2+\frac{1}{2}k_P(l^*-l_r)^2
+		\end{equation*}
+		Consider $E_P \equiv E^*$, $l \equiv l^*$, $\dot{l} \equiv 0$ and
+    $\dot{l} \equiv 0$ and $u = \ddot{l} \equiv 0$. Then, from the controller
+		based on partial energy shaping:
+    \begin{equation*}
+      (E^*-E_r)(l^*\dot{\theta}^2+g\cos\theta)-k_P(l^*-l_r) \equiv 0
+    \end{equation*}
   \end{frame}
 
+	\begin{frame}{Motion Analysis: Convergence of Energy}
+		\noindent \textbf{Case 1:} $E^* = E_r$
+
+    In this case $l^* = l_r$. The largest invariant set $W$ becomes:
+    \begin{equation*}
+      W_r = \left\{ (\theta, l, \dot{\theta}, \dot{l})
+      	\middle| \frac{1}{2} (l_r \dot{\theta})^2 -
+        g l_r \cos\theta \equiv E_r, l \equiv l_r \right\}
+    \end{equation*}
+    Hence, as $t \to \infty$, the closed-loop solution
+    $(\theta(t), l(t), \dot{\theta}(t), \dot{l}(t))$ achieves the
+    tracking control objective.
+	\end{frame}
+
+	\begin{frame}{Motion Analysis: Convergence of Energy}
+    \noindent \textbf{Case 2} $E^* \neq E_r$
+
+		In this case:
+    \begin{equation*}
+      l^* \dot{\theta}^2 + g\cos\theta \equiv \frac{k_P(l^*-l_r)}{E^*-E_r}
+    \end{equation*}
+		Considering $E_P \equiv E^*$ and $l \equiv l^*$ it is possible to prove
+		that $\theta$ is a constant. Let $\theta \equiv \theta^*$. Moreover,
+		since $E_r = -g l_r \cos\theta_{\max}$:
+    \begin{equation*}
+      l^* = \frac{l_r(k_P+g^2\cos\theta_{\max}\cos\theta^*)}{k_P+g^2}
+    \end{equation*}
+	\end{frame}
+
+	\begin{frame}{Motion Analysis: Convergence of Energy}
+		Since $\sin\theta^*=0$ admits a solution only in
+    $\{0, \pi\}$, either $(\theta^*, l^*)=(\pi, l_{ue})$ or $(\theta^*,
+    l^*)=(0, l_{de})$ where:
+    \begin{align*}
+      l_{ue} = l^*\rvert_{\theta^*=\pi} &=
+      	\frac{l_r(k_P-g^2\cos\theta_{\max})}{k_P+g^2} \\
+        l_{de} = l^*\rvert_{\theta^*=0} &=
+        \frac{l_r(k_P+g^2\cos\theta_{\max})}{k_P+g^2}
+    \end{align*}
+		To guarantee that the length
+    of the pendulum $l_{ue}$ and $l_{de}$ are positive in the two
+    cases respectively assume $k_P>-g^2\cos\theta_{\max}$ and
+    $k_P>g^2\cos\theta_{\max}$, which can be rewritten as:
+    \begin{equation*}
+      k_P > g^2 |\cos\theta_{\max}|
+    \end{equation*}
+	\end{frame}
+
+	\begin{frame}{Motion Analysis: Convergence of Energy}
+		Considering also that $0 < \theta_{\max} \le \pi$,
+		it is easy to prove that:
+    \begin{gather*}
+        0 < l_{ue} \le l_r \\ 0 < l_{de} < l_r
+    \end{gather*}
+    Let $\Omega$ be the equilibrium point set (which is an
+    invariant set for the considered system) defined as follows:
+    \begin{equation*}
+      \Omega = \{ (\pi, l_{ue}, 0, 0), (0, l_{de}, 0, 0) \}
+    \end{equation*}
+	\end{frame}
+
   \begin{frame}{Motion Analysis: Closed-Loop Equilibrium Points}
-    Closed-Loop Equilibrium Points.
+    Consider the two equilibrium points defined in $\Omega$.
+    Let the state variable vector be $x = (\theta, l, \dot{\theta},
+    \dot{l})^T$. The state space representation is $\dot{x} = f(x)$,
+    which, considering the dynamics of the VLP and the controller based on
+    partial energy shaping, can be rewritten as: 
+    \begin{align*}
+      \dot{x}_1 &= x_3 \\
+      \dot{x}_2 &= x_4 \\
+      \dot{x}_3 &= -\frac{2 x_3 x_4 + g\sin x_1}{x_2} \\
+      \dot{x}_4 &= \frac{(E_P-E_r)(x_2 x_3^2 + g\cos x1)
+				-k_P(x_2-l_r)-k_V x_4}{k_D}
+    \end{align*}
+    where $E_P=x_2^2 x_3^2 / 2 - g x_2 \cos x_1$.
   \end{frame}
+
+	\begin{frame}{Motion Analysis: Closed-Loop Equilibrium Points}
+		The characteristic equation of the Jacobian matrix evaluated
+    at the upper equilibrium point $x_{ue} = (\pi, l_{ue}, 0, 0)^T$
+    yields:
+    \begin{equation*}
+      det(sI-A_{ue}) = \left( s^2 + \frac{k_V}{k_D}s +
+        \frac{g^2+k_P}{k_D} \right) \left( s^2 - \frac{g}{l_{ue}}\right)
+    \end{equation*}
+		The jacobian $A_{ue}$ has three eigenvalues in the open LHP and
+    one eigenvalue in the open RHP. Thus, the updward equilibrium point
+    is unstable and \textbf{hyperbolic} (since all the eigenvalues of $A_{ue}$
+    have non-zero real parts).
+	\end{frame}
+
+	\begin{frame}{Motion Analysis: Closed-Loop Equilibrium Points}
+		The characteristic equation of the Jacobian matrix evaluated
+    at the downward equilibrium point $x_{de} = (0, l_{de}, 0, 0)^T$ yields:
+    \begin{equation*}
+      det(sI-A_{de}) = \left( s^2 + \frac{k_V}{k_D}s +
+        \frac{g^2+k_P}{k_D} \right) \left( s^2 + \frac{g}{l_{ue}}\right)
+    \end{equation*}
+		The Jacobian $A_{de}$ two eigenvalues in the open LHP and two
+    eigenvalues on the imaginary axis. Thus, the downward equilibrium
+		point is \textbf{non-hyperbolic} (since there
+    is at least one eigenvalue on the imaginary axis).
+	\end{frame}
+
+	\begin{frame}{Motion Analysis: Closed-Loop Equilibrium Points}
+		Consider the Lyapunov function V used for partial energy shaping:
+    \begin{equation*}
+			V = \frac{1}{2}(E_P-E_r)^2+\frac{1}{2}k_P(l-l_r)^2+
+      	\frac{1}{2}k_D\dot{l}^2
+    \end{equation*}
+		Consider the following set:
+    \begin{equation*}
+      \Gamma_d = \left\{ (\theta, l, \dot{\theta}, \dot{l})
+        \mid V(\theta, l, \dot{\theta}, \dot{l}) <
+        V(0, l_{de}, 0, 0) \right\}
+    \end{equation*}
+		Let the values of V at the downward equilibrium point $x_{de}$
+    and a state $(\delta, l_{de}, 0, 0)$ be respectively $V_{de}$
+    and $V_\delta$:
+    \begin{gather*}
+      V_{de} = V(0, l_{de}, 0, 0) = \frac{1}{2}(g l_{de} + E_r)^2
+        + \frac{1}{2} k_P (l_{de} - l_r)^2 \\
+      V_\delta = V(\delta, l_{de}, 0, 0) = \frac{1}{2}(g l_{de}
+        \cos\delta + E_r)^2 + \frac{1}{2} k_P (l_{de} - l_r)^2
+    \end{gather*}
+	\end{frame}
+
+	\begin{frame}{Motion Analysis: Closed-Loop Equilibrium Points}
+		Compute the difference between $V_\delta$ and $V_{de}$ yields:
+    \begin{align*}
+      V_\delta - V_{de} %&= -\frac{1}{2} g l_{de} (1-\cos\delta)
+        %(g l_{de}(1+\cos\delta)+2E_r) \\
+        &= -\frac{g^2 l_{de} l_r (1-\cos\delta) \Xi}{k_P+g^2}
+    \end{align*}
+    where:
+    \begin{equation*}
+        \Xi = k_P(1-\cos\theta_{\max})-(k_P+g^2\cos\theta_{\max})
+            \sin^2 \left( \frac{\delta}{2} \right)
+    \end{equation*}
+    Using $k_P > -g^2\cos\theta_{\max}$ and
+    $|\sin \delta|<|\delta|$ for $\delta \neq 0$:
+    \begin{equation*}
+      \Xi > k_P(1-\cos\theta_{\max})-
+        \frac{(k_P+g^2\cos\theta_{\max})\delta^2}{4}
+    \end{equation*}
+    with $\delta \neq 0$.
+	\end{frame}
+
+	\begin{frame}{Motion Analysis: Closed-Loop Equilibrium Points}
+		If $\delta$ satisfies:
+    \begin{equation*}
+      0 < |\delta| \le \delta_m = 2
+        \sqrt{\frac{k_P(1-\cos\theta_{\max})}{k_P+g^2\cos\theta_{\max}}}
+    \end{equation*}
+    then $\Xi>0$ (proof by simply noticing that $-\delta^2\ge-\delta_m^2$),
+    which, using $V_\delta - V_{de}$, implies:
+    \begin{equation*}
+      V_\delta < V_{de}, \quad (\delta, l_{de}, 0, 0) \in \Gamma_d
+    \end{equation*}
+    which itself implies%, because of the definition of $\Gamma_d$,
+    that $\Gamma_d \neq \varnothing$.
+	\end{frame}
+
+	\begin{frame}{Motion Analysis: Closed-Loop Equilibrium Points}
+		Since the considered Lyapunov function is
+    monotonically decreasing under the controller
+		based on partial energy shaping, for any $\delta$
+    satisfying $0 < |\delta| \le \delta_m$, closed-loop solution
+    starting from an initial state belonging to $\Gamma_d$
+    approaches $W_r$ due to the results obtained in
+    Convergence of Energy (Case 1),
+    hence, the downward
+    equilibrium point $(0, l_{de}, 0, 0)$ is unstable in the
+    Lyapunov sense.
+
+    It is, hence, possible to conclude by saying that
+    every closed-loop solution under the closed-loop
+    system consisted of the dynamic equation of the VLP and the controller
+    based on partial energy shaping, supposing
+    $k_P>g^2|\cos\theta_{\max}|$, $k_D>0$, $k_V>0$,
+    $0<\theta_{\max}\le\pi$, approaches $W=W_r\cup\Omega$.
+	\end{frame}
 
   \begin{frame}{Conclusion}
     Conclusion.
