@@ -1,6 +1,8 @@
 \documentclass[10pt]{beamer}
 \usepackage{ragged2e} % \justifying
 \usepackage[export]{adjustbox} % left and right in images
+\usepackage{subcaption} % subfigure
+\usepackage[none]{hyphenat} % Avoids to go out of margin
 \usetheme{metropolis}           % Use metropolis theme
 \title{FP1: Control of the Variable Length Pendulum}
 %\subtitle{\textit{Authors:} Xin Xin, Yannian Liu}
@@ -104,9 +106,45 @@
   \end{frame}
 
   \begin{frame}{Controller Design: Total Energy Shaping}
-    Simulation + Plots.
+    Consider the trajectory tracking control problem defined previously
+    and $l_r=3\text{m}$, $\theta_{\max}=2\pi/5$, $g=9.81\text{m/s}^2$.
+    Choosing $k_D=12$, $k_P=30$ and $k_V=12$ yields $l_{de}=1.42\text{m}$.
   \end{frame}
 
+  \begin{frame}{Controller Design: Total Energy Shaping}
+    \begin{figure}
+      \caption{Time responses of $V$, $E_T-E_r$, $E_T-E_r+k_D$ and $u$
+        with initial state
+        $(\theta(0),l(0),\dot{\theta}(0),\dot{l}(0)) = (-\pi/6,2,0,0)$.}
+      \vspace{-0.3cm}
+      \includegraphics[width=0.8\textwidth]{images/total_1b.pdf}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Controller Design: Total Energy Shaping}
+    \begin{figure}
+      \caption{Time reponses of $(\theta,l,\dot{\theta},\dot{l})$ with initial
+        state $(\theta(0),l(0),\dot{\theta}(0),\dot{l}(0))=(-\pi/6,2,0,0)$.}
+      \vspace{-0.3cm}
+      \includegraphics[width=0.8\textwidth]{images/total_2b.pdf}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Controller Design: Total Energy Shaping}
+    \begin{figure}
+      \caption{The controller encountered a
+        singular point for initial state $(\theta(0),l(0),\dot{\theta}(0),
+        \dot{l}(0)) = (-\pi/6,2,0,4)$.}
+      \vspace{-0.3cm}
+      \begin{subfigure}{.49\textwidth}
+        \includegraphics[width=1\linewidth]{images/total_2.pdf}
+      \end{subfigure}
+      \begin{subfigure}{.49\textwidth}
+        \includegraphics[width=1\linewidth]{images/total_1.pdf}
+      \end{subfigure}  
+    \end{figure}
+  \end{frame}
+  
   \begin{frame}{Controller Design: Partial Energy Shaping}
     $E_P$ sum of kinetic energy of rotation and potential energy of VLP:
     \begin{equation*}
@@ -162,6 +200,52 @@
         \frac{1}{2}(l^*\dot{\theta})^2-gl^*\cos\theta \equiv E^*,
         l \equiv l^*\right\}
     \end{equation*}
+  \end{frame}
+
+  \begin{frame}{Controller Design: Partial Energy Shaping}
+    \begin{figure}
+      \caption{Time responses of $V$, $E_P-E_r$ and $u$ with initial state 
+        $(\theta(0), l(0), \dot{\theta}(0), \dot{l}(0))=(-\pi/6, 2, 0, 0).$}
+      \vspace{-0.3cm}
+      \includegraphics[width=0.8\textwidth]{images/partial_1.pdf}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Controller Design: Partial Energy Shaping}
+    \begin{figure}
+      \caption{Time responses of $(\theta, l, \dot{\theta}, \dot{l})$ with 
+        initial state $(\theta(0), l(0), \dot{\theta}(0), \dot{l}(0))=
+        (-\pi/6, 2, 0, 0).$}
+      \vspace{-0.3cm}
+      \includegraphics[width=0.8\textwidth]{images/partial_2.pdf}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Controller Design: Partial Energy Shaping}
+    \begin{figure}
+      \caption{$V_\delta-V_{de}$.}
+      \vspace{-0.3cm}
+      \includegraphics[width=0.8\textwidth]{images/partial_3.pdf}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Controller Design: Partial Energy Shaping}
+    \begin{figure}
+      \caption{Time responses of $V$, $E_P-E_r$ and $u$ with initial state 
+        $(\theta(0), \l(0), \dot{\theta}(0), \dot{l}(0))=(-\pi/3, l_{de}, 0,
+        0)$.}
+      \vspace{-0.3cm}
+      \includegraphics[width=0.8\textwidth]{images/partial_1b.pdf}
+    \end{figure}
+  \end{frame}
+
+ \begin{frame}{Controller Design: Partial Energy Shaping}
+    \begin{figure}
+      \caption{Time responses of $(\theta, l, \dot{\theta}, \dot{l})$ with 
+        initial state $(-\pi/3, l_{de}, 0, 0)$.}
+      \vspace{-0.3cm}
+      \includegraphics[width=0.8\textwidth]{images/partial_2b.pdf}
+    \end{figure}
   \end{frame}
 
   \begin{frame}{Motion Analysis: Convergence of Energy}
