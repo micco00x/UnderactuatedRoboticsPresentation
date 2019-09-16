@@ -229,32 +229,13 @@
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Controller Design: Partial Energy Shaping}
-    \begin{figure}
-      \caption{Time responses of $V$, $E_P-E_r$ and $u$ with initial state 
-        $(\theta(0), \l(0), \dot{\theta}(0), \dot{l}(0))=(-\pi/3, l_{de}, 0,
-        0)$.}
-      \vspace{-0.3cm}
-      \includegraphics[width=0.8\textwidth]{images/partial_1b.pdf}
-    \end{figure}
-  \end{frame}
-
- \begin{frame}{Controller Design: Partial Energy Shaping}
-    \begin{figure}
-      \caption{Time responses of $(\theta, l, \dot{\theta}, \dot{l})$ with 
-        initial state $(-\pi/3, l_{de}, 0, 0)$.}
-      \vspace{-0.3cm}
-      \includegraphics[width=0.8\textwidth]{images/partial_2b.pdf}
-    \end{figure}
-  \end{frame}
-
   \begin{frame}{Motion Analysis: Convergence of Energy}
-    Trajectory Tracking Control Problem achieved iff $V*=0$, with:
+    Trajectory Tracking Control Problem achieved iff $V^*=0$, with:
     \begin{equation*}
       V^* = \frac{1}{2}(E^*-E_r)^2+\frac{1}{2}k_P(l^*-l_r)^2
     \end{equation*}
-    Consider $E_P \equiv E^*$, $l \equiv l^*$, $\dot{l} \equiv 0$ and
-    $\dot{l} \equiv 0$ and $u = \ddot{l} \equiv 0$. Then, from the controller
+    Consider $E_P \equiv E^*$, $l \equiv l^*$, $\dot{l} \equiv 0$
+    and $u = \ddot{l} \equiv 0$. Then, from the controller
     based on partial energy shaping:
     \begin{equation*}
       (E^*-E_r)(l^*\dot{\theta}^2+g\cos\theta)-k_P(l^*-l_r) \equiv 0
@@ -360,7 +341,7 @@
         \frac{g^2+k_P}{k_D} \right) \left( s^2 + \frac{g}{l_{ue}}\right)
     \end{equation*}
     The Jacobian $A_{de}$ two eigenvalues in the open LHP and two
-    eigenvalues on the imaginary axis. Thus, the downward equilibrium
+    eigenvalues on the imaginary axis.\\Thus, the downward equilibrium
     point is \textbf{non-hyperbolic} (since there
     is at least one eigenvalue on the imaginary axis).
   \end{frame}
@@ -441,6 +422,25 @@
     based on partial energy shaping, supposing
     $k_P>g^2|\cos\theta_{\max}|$, $k_D>0$, $k_V>0$,
     $0<\theta_{\max}\le\pi$, approaches $W=W_r\cup\Omega$.
+  \end{frame}
+
+  \begin{frame}{Controller Design: Partial Energy Shaping}
+    \begin{figure}
+      \caption{Time responses of $V$, $E_P-E_r$ and $u$ with initial state 
+        $(\theta(0), \l(0), \dot{\theta}(0), \dot{l}(0))=(-\pi/3, l_{de}, 0,
+        0)$, which satisfied $V_\delta < V_{de}$.}
+      \vspace{-0.3cm}
+      \includegraphics[width=0.8\textwidth]{images/partial_1b.pdf}
+    \end{figure}
+  \end{frame}
+
+ \begin{frame}{Controller Design: Partial Energy Shaping}
+    \begin{figure}
+      \caption{Time responses of $(\theta, l, \dot{\theta}, \dot{l})$ with 
+        initial state $(-\pi/3, l_{de}, 0, 0)$.}
+      \vspace{-0.3cm}
+      \includegraphics[width=0.8\textwidth]{images/partial_2b.pdf}
+    \end{figure}
   \end{frame}
 
   \begin{frame}{Conclusion}
