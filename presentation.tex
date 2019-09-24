@@ -201,87 +201,66 @@
   \end{frame}
   
   \begin{frame}{Controller Design: Partial Energy Shaping}
-    $E_P$ sum of kinetic energy of rotation and potential energy of VLP:
+    $E_P$ sum of kinetic energy of rotation and potential energy of VLP
     \begin{equation*}
       E_P = \frac{1}{2}(l(t)\dot{\theta}(t))^2-gl(t)\cos\theta(t)
     \end{equation*}
-    Lyapunov candidate:
+    since $(E_T, l, \dot{l}) \equiv (E_r, l_r, 0)$ equivalent to
+    $(E_T, l, \dot{l}) \equiv (E_r, l_r, 0)$
+    \\
+    Lyapunov candidate
     \begin{gather*}
       V = \frac{1}{2}(E_P-E_r)^2+\frac{1}{2}k_P(l-l_r)^2+
         \frac{1}{2}k_D\dot{l}^2 \\ 
       \dot{V} = \big(-(E_P-E_r)(l\dot{\theta}^2+g\cos\theta)+k_P(l-l_r)\big)
         + k_D u) \dot{l}
     \end{gather*}
-    Controller:
+    controller
     \begin{equation*}
       u = \frac{(E_P-E_r)(l\dot{\theta}^2+g\cos\theta)-k_P(l-l_r)
         -k_V\dot{l}}{k_D}
     \end{equation*}
-    which is free of singular points. Moreover:
+    which is free of singular points
     \begin{equation*}
       \dot{V} = -k_V \dot{l}^2 \le 0, \quad k_V > 0
     \end{equation*}
   \end{frame}
 
   \begin{frame}{Controller Design: Partial Energy Shaping}
-    Consider:
+    consider
     \begin{equation*}
       \Gamma_c = \left\{(\theta,l,\dot{\theta},\dot{l})|
         V(\theta,l,\dot{\theta},\dot{l}) \le c\right\}, \quad c > 0
     \end{equation*}
-    Since $\dot{V} \le 0$, any closed-loop solution starting in $\Gamma_c$
-    remains in $\Gamma_c$ for all $t \ge 0$.
-    Let $W$ be the largest invariant set in:
+    since $\dot{V} \le 0$, any closed-loop solution starting in $\Gamma_c$
+    remains in $\Gamma_c$ for all $t \ge 0$
+    
+    let $W$ be the largest invariant set in
     \begin{equation*}
       S = \{(\theta,l,\dot{\theta},\dot{l})) \in \Gamma_c|\dot{V}=0\}
     \end{equation*}
-    Using \textbf{LaSalle's invariant principle}, every closed-loop
-    solution starting in $\Gamma_c$ approaches $W$ as $t \to \infty$.
+    using \textbf{LaSalle's invariant principle}, every closed-loop
+    solution starting in $\Gamma_c$ approaches $W$ as $t \to \infty$
   \end{frame}
 
   \begin{frame}{Controller Design: Partial Energy Shaping}
-    Since $\dot{V} = 0$ holds for all elements of $W$, $V$ and $l$
-    are constant in $W$ (let them be $V^*$ and $l^*$). Moreover,
-    since $V$ is a constant in $W$, $E_P$ is also a constant in $W$.
-    Consequently:
+    since $\dot{V} = 0$ holds for all elements of $W$, then
+    \begin{equation*}
+      V \equiv V^* \quad l \equiv l^*
+    \end{equation*} 
+    moreover,
+    since $V$ is a constant in $W$, $E_P$ is also a constant in $W$
     \begin{equation*}
       \lim_{t\rightarrow \infty} E_P = E^* \quad
       \lim_{t\rightarrow \infty} \dot{l} = 0 \quad
       \lim_{t\rightarrow \infty} l = l^*
     \end{equation*}     
-    Thus, the largest invariant set $W$ can be defined as:
+    thus, the largest invariant set $W$ can be defined as
     \begin{equation*}
       W = \left\{(\theta,l,\dot{\theta},\dot{l})\middle|
         \frac{1}{2}(l^*\dot{\theta})^2-gl^*\cos\theta \equiv E^*,
         l \equiv l^*\right\}
     \end{equation*}
-  \end{frame}
-
-  \begin{frame}{Controller Design: Partial Energy Shaping}
-    \begin{figure}
-      \caption{Time responses of $V$, $E_P-E_r$ and $u$ with initial state 
-        $(\theta(0), l(0), \dot{\theta}(0), \dot{l}(0))=(-\pi/6, 2, 0, 0).$}
-      \vspace{-0.3cm}
-      \includegraphics[width=0.8\textwidth]{images/partial_1.pdf}
-    \end{figure}
-  \end{frame}
-
-  \begin{frame}{Controller Design: Partial Energy Shaping}
-    \begin{figure}
-      \caption{Time responses of $(\theta, l, \dot{\theta}, \dot{l})$ with 
-        initial state $(\theta(0), l(0), \dot{\theta}(0), \dot{l}(0))=
-        (-\pi/6, 2, 0, 0).$}
-      \vspace{-0.3cm}
-      \includegraphics[width=0.8\textwidth]{images/partial_2.pdf}
-    \end{figure}
-  \end{frame}
-
-  \begin{frame}{Controller Design: Partial Energy Shaping}
-    \begin{figure}
-      \caption{$V_\delta-V_{de}$.}
-      \vspace{-0.3cm}
-      \includegraphics[width=0.8\textwidth]{images/partial_3.pdf}
-    \end{figure}
   \end{frame}
 
   \begin{frame}{Motion Analysis: Convergence of Energy}
@@ -479,20 +458,47 @@
     $0<\theta_{\max}\le\pi$, approaches $W=W_r\cup\Omega$.
   \end{frame}
 
-  \begin{frame}{Controller Design: Partial Energy Shaping}
+  \begin{frame}{Partial Energy Shaping: Simulation}
     \begin{figure}
-      \caption{Time responses of $V$, $E_P-E_r$ and $u$ with initial state 
+      \caption*{Time responses of $V$, $E_P-E_r$ and $u$ with initial state 
+        $(\theta(0), l(0), \dot{\theta}(0), \dot{l}(0))=(-\pi/6, 2, 0, 0)$}
+      \vspace{-0.3cm}
+      \includegraphics[width=0.8\textwidth]{images/partial_1.pdf}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Partial Energy Shaping: Simulation}
+    \begin{figure}
+      \caption*{Time responses of $(\theta, l, \dot{\theta}, \dot{l})$ with 
+        initial state $(\theta(0), l(0), \dot{\theta}(0), \dot{l}(0))=
+        (-\pi/6, 2, 0, 0)$}
+      \vspace{-0.3cm}
+      \includegraphics[width=0.8\textwidth]{images/partial_2.pdf}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Partial Energy Shaping: Simulation}
+    \begin{figure}
+      \caption*{$V_\delta-V_{de}$}
+      \vspace{-0.3cm}
+      \includegraphics[width=0.8\textwidth]{images/partial_3.pdf}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Partial Energy Shaping: Simulation}
+    \begin{figure}
+      \caption*{Time responses of $V$, $E_P-E_r$ and $u$ with initial state 
         $(\theta(0), \l(0), \dot{\theta}(0), \dot{l}(0))=(-\pi/3, l_{de}, 0,
-        0)$, which satisfied $V_\delta < V_{de}$.}
+        0)$, which satisfied $V_\delta < V_{de}$}
       \vspace{-0.3cm}
       \includegraphics[width=0.8\textwidth]{images/partial_1b.pdf}
     \end{figure}
   \end{frame}
 
- \begin{frame}{Controller Design: Partial Energy Shaping}
+ \begin{frame}{Partial Energy Shaping: Simulation}
     \begin{figure}
-      \caption{Time responses of $(\theta, l, \dot{\theta}, \dot{l})$ with 
-        initial state $(-\pi/3, l_{de}, 0, 0)$.}
+      \caption*{Time responses of $(\theta, l, \dot{\theta}, \dot{l})$ with 
+        initial state $(-\pi/3, l_{de}, 0, 0)$}
       \vspace{-0.3cm}
       \includegraphics[width=0.8\textwidth]{images/partial_2b.pdf}
     \end{figure}
