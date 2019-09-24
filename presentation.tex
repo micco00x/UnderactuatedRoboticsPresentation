@@ -29,30 +29,45 @@
   \justifying
 
   \begin{frame}{Introduction}
+
     \begin{itemize}
-      \item Variable Length Pendulum (VLP)
-      \item Trajectory Tracking Control
-      \item Total Energy Shaping
-      \item Partial Energy Shaping
-      \item Convergence of Energy
-      \item Closed-Loop Equilibrium Points
-      \item Simulink
+      \item the main goal of this work is to study the
+        \textbf{Variable Length Pendulum} and present controllers designed
+        to make it achieve a desired swing motion 
+        given a desired energy and a desired length of the pendulum
+      
+      \vspace{0.6cm}
+      
+      \item based on \textbf{Control Design and Analysis for
+        Underactuated Robotics: Variable Length Pendulum} by
+        \textit{Xin Xin}, \textit{Yannian Liu}
+
+      \vspace{0.6cm}
+
+      \item main points in this work
+      \begin{itemize}
+        \item motion equation
+        \item problem formulation
+        \item controller design 
+        \item motion analysis
+        \item simulation results
+      \end{itemize}
     \end{itemize}
   \end{frame}
 
   \begin{frame}{Motion Equation}
     \begin{columns}[c,onlytextwidth]
       \column{0.6\textwidth}
-        Euler-Lagrange equation:
-        \begin{align*}
-          &\ddot{\theta}(t)+\frac{2\dot{l}(t)\dot{\theta}(t)}{l(t)}+
-            \frac{g\sin\theta(t)}{l(t)} = 0  \\
-          &\ddot{l}(t)-ml(t)\dot{\theta}^2(t)-mg\cos\theta(t) = f(t)
-        \end{align*}
-        Control input:
-        \begin{equation*}
-          u = \ddot{l}(t)
-        \end{equation*}
+        \begin{itemize}
+          \item friction at pivot $O$ and viscous friction of
+            the rod are absent\\
+          \item the rod is massless\\
+          \item the angle $\theta(t)$ to be between the pendulum and the
+            vertical axis\\
+          \item the length of the pendulum $l(t)$ starts from the
+            origin $O$ to the mass of the pendulum $m$\\
+          \item $f(t)$ is the force acting on the mass
+        \end{itemize}
       \column{0.4\textwidth}
         \begin{figure}
           \includegraphics[width=0.96\textwidth,right]{images/vlp.png}
@@ -60,21 +75,58 @@
     \end{columns}
   \end{frame}
 
+  \begin{frame}{Motion Equation}
+    \begin{eqnarray*}
+      x_G = l(t)\sin\theta(t) &  y_G = -l(t)\cos\theta(t) 
+    \end{eqnarray*}
+    kinetic energy defined as
+    \begin{equation*}
+      T = \frac{1}{2}m(\dot{x}_G^2+\dot{y}_G^2) = \frac{1}{2}m\big(l(t)\dot{\theta}(t)\big)^2+\frac{1}{2}m\big(\dot{l}(t)\big)^2 
+    \end{equation*}
+    potential energy as
+    \begin{equation*}
+      P = mgy_G = -mgl(t)\cos\theta(t)  
+    \end{equation*}
+    the Lagrangian equation of the VLP
+    \begin{equation*}
+      L = T-P
+    \end{equation*}
+    Euler-Lagrangian operator 
+    \begin{equation*}\label{model}
+      \frac{\partial L}{\partial q}   -\frac{dL}{dt}\Bigg(\frac{\partial L}{\partial \dot{q}}\Bigg) = \tau
+    \end{equation*}
+  with $q = [l, \theta]^T$ and $\tau$ applied generalized forces
+  \end{frame}
+
+  \begin{frame}{Motion Equation}
+    Euler-Lagrange equation
+    \begin{align*}
+      &\ddot{\theta}(t)+\frac{2\dot{l}(t)\dot{\theta}(t)}{l(t)}+
+        \frac{g\sin\theta(t)}{l(t)} = 0  \\
+      &\ddot{l}(t)-ml(t)\dot{\theta}^2(t)-mg\cos\theta(t) = f(t)
+    \end{align*}
+    control input
+    \begin{equation*}
+      u = \ddot{l}(t)
+    \end{equation*}
+  \end{frame}
+
   \begin{frame}{Problem Formulation}
-    Let $m=1$. Total mechanical energy:
+    let $m=1$, total mechanical energy
     \begin{equation*}
       E_T = %T+P =
         \frac{1}{2}\dot{l}^2(t)+\frac{1}{2}\big(l(t)\dot{\theta}(t)\big)^2-
         gl(t)\cos\theta(t) 
     \end{equation*}
-    Desired trajectory of swing described by:
+    desired trajectory of swing described by
     \begin{equation*}
       E_r = \frac{1}{2}\big(l_r\dot{\theta}(t)\big)^2-gl_r\cos\theta(t) 
     \end{equation*}
-    with $E_r$ and $l_r$ desired energy and length of the VLP.\\Moreover:
-    $E_r = -gl_r\cos\theta_{max}, \theta_{max} \in (0,\pi]$.
+    with $E_r$ and $l_r$ desired energy and length of the VLP
+    \\
+    $E_r = -gl_r\cos\theta_{max}, \theta_{max} \in (0,\pi]$
 
-    \textbf{Trajectory tracking control problem:}
+    \textbf{Trajectory tracking control problem}
     \begin{equation*}
       \lim_{t\rightarrow \infty} E_T = E_r  \quad
       \lim_{t\rightarrow \infty} \dot{l} = 0 \quad
@@ -83,58 +135,61 @@
   \end{frame}
 
   \begin{frame}{Controller Design: Total Energy Shaping}
-    Lyapunov candidate with $k_P>0$, $k_D>0$:
+    Lyapunov candidate with $k_P>0$, $k_D>0$
     \begin{gather*}
       V_c = \frac{1}{2}(E_T-E_r)^2+\frac{1}{2}k_P(l-l_r)^2+
         \frac{1}{2}k_D\dot{l}^2 \\
       \dot{V}_c = \dot{l}\big((E_T-E_r+k_D)u-(E_T-E_r)(l\dot{\theta}^2+
         g\cos\theta)-k_P(l-l_r) \big)
     \end{gather*}
-    Controller:
+    controller
     \begin{equation*}
       u = \frac{(E_T-E_r)(l\dot{\theta}^2+g\cos\theta)-k_P(l-l_r)-
         k_V\dot{l}}{E_T-E_r+k_D}
     \end{equation*}
-    with $k_V>0$, then:
+    with $k_V>0$, then
     \begin{equation*}
       \dot{V}_c = -k_V\dot{l}^2 \leq 0
     \end{equation*}
-    which holds only if:
+    which holds only if
     \begin{equation*}
       E_T-E_r+k_D  \neq 0 \quad \forall t\geq 0
     \end{equation*}
   \end{frame}
 
-  \begin{frame}{Controller Design: Total Energy Shaping}
-    Consider the trajectory tracking control problem defined previously
-    and $l_r=3\text{m}$, $\theta_{\max}=2\pi/5$, $g=9.81\text{m/s}^2$.
-    Choosing $k_D=12$, $k_P=30$ and $k_V=12$ yields $l_{de}=1.42\text{m}$.
+  \begin{frame}{Total Energy Shaping: Simulation}
+    consider the trajectory tracking control problem defined previously
+    and $l_r=3\text{m}$, $\theta_{\max}=2\pi/5$, $g=9.81\text{m/s}^2$
+    
+    \vspace{1cm}
+    
+    let $k_D=12$, $k_P=30$ and $k_V=12$
   \end{frame}
 
-  \begin{frame}{Controller Design: Total Energy Shaping}
+  \begin{frame}{Total Energy Shaping: Simulation}
     \begin{figure}
-      \caption{Time responses of $V$, $E_T-E_r$, $E_T-E_r+k_D$ and $u$
+      \caption*{Time responses of $V$, $E_T-E_r$, $E_T-E_r+k_D$ and $u$
         with initial state
-        $(\theta(0),l(0),\dot{\theta}(0),\dot{l}(0)) = (-\pi/6,2,0,0)$.}
+        $(\theta(0),l(0),\dot{\theta}(0),\dot{l}(0)) = (-\pi/6,2,0,0)$}
       \vspace{-0.3cm}
       \includegraphics[width=0.8\textwidth]{images/total_1b.pdf}
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Controller Design: Total Energy Shaping}
+  \begin{frame}{Total Energy Shaping: Simulation}
     \begin{figure}
-      \caption{Time reponses of $(\theta,l,\dot{\theta},\dot{l})$ with initial
-        state $(\theta(0),l(0),\dot{\theta}(0),\dot{l}(0))=(-\pi/6,2,0,0)$.}
+      \caption*{Time reponses of $(\theta,l,\dot{\theta},\dot{l})$ with initial
+        state $(\theta(0),l(0),\dot{\theta}(0),\dot{l}(0))=(-\pi/6,2,0,0)$}
       \vspace{-0.3cm}
       \includegraphics[width=0.8\textwidth]{images/total_2b.pdf}
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Controller Design: Total Energy Shaping}
+  \begin{frame}{Total Energy Shaping: Simulation}
     \begin{figure}
-      \caption{The controller encountered a
+      \caption*{The controller encountered a
         singular point for initial state $(\theta(0),l(0),\dot{\theta}(0),
-        \dot{l}(0)) = (-\pi/6,2,0,4)$.}
+        \dot{l}(0)) = (-\pi/6,2,0,4)$}
       \vspace{-0.3cm}
       \begin{subfigure}{.49\textwidth}
         \includegraphics[width=1\linewidth]{images/total_2.pdf}
