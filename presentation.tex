@@ -123,9 +123,12 @@
       E_r = \frac{1}{2}\big(l_r\dot{\theta}(t)\big)^2-gl_r\cos\theta(t) 
     \end{equation*}
     with $E_r$ and $l_r$ desired energy and length of the VLP
-    \\
+    
+    \vspace{0.4cm}
+    
     $E_r = -gl_r\cos\theta_{max}, \theta_{max} \in (0,\pi]$
 
+    \vspace{0.1cm}
     \textbf{Trajectory tracking control problem}
     \begin{equation*}
       \lim_{t\rightarrow \infty} E_T = E_r  \quad
@@ -154,6 +157,10 @@
     which holds only if
     \begin{equation*}
       E_T-E_r+k_D  \neq 0 \quad \forall t\geq 0
+    \end{equation*}
+    $E_T$ satisfies
+    \begin{equation*}
+      E_T \geq -gl(t)
     \end{equation*}
   \end{frame}
 
@@ -227,6 +234,9 @@
   \end{frame}
 
   \begin{frame}{Controller Design: Partial Energy Shaping}
+    \begin{equation*}
+      \dot{V} \leq 0
+    \end{equation*}
     consider
     \begin{equation*}
       \Gamma_c = \left\{(\theta,l,\dot{\theta},\dot{l})|
