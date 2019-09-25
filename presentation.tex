@@ -440,8 +440,26 @@
     every closed-loop solution under the closed-loop
     system consisted of the dynamic equation of the VLP and the controller
     based on partial energy shaping, supposing
-    $k_P>g^2|\cos\theta_{\max}|$, $k_D>0$, $k_V>0$,
-    $0<\theta_{\max}\le\pi$, approaches $W=W_r\cup\Omega$
+    \begin{gather*}
+    0<\theta_{\max}\le\pi \\
+    k_P>g^2|\cos\theta_{\max}|, \quad k_D>0, \quad k_V>0
+    \end{gather*}
+    approaches $W=W_r\cup\Omega$
+  \end{frame}
+
+  \begin{frame}{Partial Energy Shaping: Simulation}
+    consider the trajectory tracking control problem defined previously
+    and $l_r=3\text{m}$, $\theta_{\max}=2\pi/5$, $g=9.81\text{m/s}^2$
+    
+    the condition on $k_P$ is 
+    \begin{equation*}
+      k_P > g^2 |cos\theta_{\max}| = 29.74
+    \end{equation*}
+    which yields $l_{de}=1.42$m
+
+    \vspace{1cm}
+    
+    let $k_D=12$, $k_P=30$ and $k_V=12$
   \end{frame}
 
   \begin{frame}{Partial Energy Shaping: Simulation}
